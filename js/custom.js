@@ -108,7 +108,7 @@ updateQuestionsAndAnswers = (quizInfo) => {
                 let answerID = answerObj.split('||')[0];
                 let answerString = answerObj.split('||')[1];
                 //Test purpose
-                answerString = 'answer-STRING-' + answerID; 
+                // answerString = 'answer-STRING-' + answerID; 
                 /////////////
 
                 if (answerID == correctAnswerID) {
