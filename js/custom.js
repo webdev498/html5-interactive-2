@@ -1,3 +1,5 @@
+let isNetworkOnline = false;
+
 let ROUND_CURRENT_INDEX = 1;
 let QuizDetail;
 let canGoNext = false;
@@ -22,6 +24,11 @@ $(document ).ready(function() {
     $('.pt-btn-begin').toggleClass('pt-btn-begin-inactive');
     
     if (navigator.onLine) { // ------------- Online mode -----------
+        isNetworkOnline = true;
+        //Send the responses reporting to server if exists
+        sendStoredReportToServer();
+
+        //Get Activity JSON
         $.post("https://gsk.mc3tt.com/tabletop/activities/getactivity/", { activity_id: 124 }, function(data){
 
             //Enable Start Button
@@ -29,6 +36,9 @@ $(document ).ready(function() {
 
             //Get the quiz info
             QuizDetail = $.parseJSON(data);
+
+            //Store browser support
+            localStorage.setItem("activity_json", data);
 
             //Update the screens with queries
             updateQuestionsAndAnswers(QuizDetail['Activity124']);
@@ -39,7 +49,26 @@ $(document ).ready(function() {
             });
     }
     else { // ---------------- Offline mode-------------
-        $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+        isNetworkOnline = false;
+
+        //Check if browser supports the local storage
+        if (typeof(Storage) !== "undefined") {
+            let activity_json = localStorage.getItem("activity_json");
+            if (!activity_json) {
+                alert('Sorry! You must be online at least first time.');    
+            }
+            else {
+                QuizDetail = $.parseJSON(activity_json);
+                //Update the screens with queries
+                updateQuestionsAndAnswers(QuizDetail['Activity124']);
+
+                $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+
+            }
+        } else {
+            alert('Sorry! No Web Storage support..');
+        }
+        
     }
 
 });
@@ -107,6 +136,34 @@ updateQuestionsAndAnswers = (quizInfo) => {
     }
 }
 
+storeReportToLocalStorage = (question_id, answer_id, score) => {
+    var storedReport = JSON.parse(localStorage.getItem("reports"));
+    if (!storedReport) storedReport = [];
+
+    storedReport.push({
+        question_id: question_id,
+        answer_id: answer_id,
+        score: score
+    });
+
+    localStorage.setItem("reports", JSON.stringify(storedReport));
+}
+
+sendStoredReportToServer = () => {
+    var storedReport = JSON.parse(localStorage.getItem("reports"));
+
+    if (storedReport) {
+        $.each(storedReport, function( index, reportObj ) {
+            var { question_id, answer_id, score } = reportObj;
+            sendReportToServer(question_id, answer_id, score);
+        });
+
+        //Remove the reports in local storage
+        localStorage.removeItem('reports');
+    }
+    
+}
+
 sendReportToServer = (question_id, answer_id, score) => {
     let localInfo = $.parseJSON(currentJSONString);
     let eventID = localInfo.TTInfoDictionary.TTInfo[0][1];
@@ -120,10 +177,10 @@ sendReportToServer = (question_id, answer_id, score) => {
                 question_id: question_id,
                 answer_id: answer_id,
                 answer_text: ' ',
-                score: 10
+                score: score
             }, function(data){
 
-            console.log('====== Successfully Reported ========');
+            console.log('====== Successfully Reported ========', question_id, answer_id);
             
         })
             .fail(function() {
@@ -165,7 +222,13 @@ checkCanGoNext = () => {
 
         //Send the report to server
         let questionID = quizInfo['Question' + questionIndex][0][1];
-        sendReportToServer( questionID, answerID, );
+        if (isNetworkOnline) {  //Sending to server
+            sendReportToServer(questionID, answerID, 10);
+        }
+        else { //Store it in local storage
+            storeReportToLocalStorage(questionID, answerID, 10);
+        }
+        
     }
 
     if(current_round_correct_num == 4) {  //Display Correct
