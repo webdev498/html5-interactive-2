@@ -107,6 +107,29 @@ updateQuestionsAndAnswers = (quizInfo) => {
     }
 }
 
+sendReportToServer = (question_id, answer_id, score) => {
+    let localInfo = $.parseJSON(currentJSONString);
+    let eventID = localInfo.TTInfoDictionary.TTInfo[0][1];
+    let userID = localInfo.TTInfoDictionary.TTInfo[1][1];
+
+    $.post("https://gsk.mc3tt.com/tabletop/activities/addactivitycompetition/", 
+            { 
+                activity_id: 124,
+                user_id: userID,
+                event_id: eventID,
+                question_id: question_id,
+                answer_id: answer_id,
+                answer_text: ' ',
+                score: 10
+            }, function(data){
+
+            console.log('====== Successfully Reported ========');
+            
+        })
+            .fail(function() {
+                console.log('+++++++++ Error reporting testing result +++++');
+            });
+}
 
 checkCanGoNext = () => {
     let quizInfo = QuizDetail['Activity124'];
@@ -139,6 +162,10 @@ checkCanGoNext = () => {
             totalCorrectNum ++;
             current_round_correct_num ++;
         }
+
+        //Send the report to server
+        let questionID = quizInfo['Question' + questionIndex][0][1];
+        sendReportToServer( questionID, answerID, );
     }
 
     if(current_round_correct_num == 4) {  //Display Correct
