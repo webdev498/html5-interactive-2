@@ -398,6 +398,12 @@ var PageTransitions = (function() {
 
 		}
 
+
+
+
+		onEndAnimation( $currPage, $nextPage );
+		//------------ Disable Animation for now --------------
+		/*
 		$currPage.addClass( outClass ).on( animEndEventName, function() {
 			$currPage.off( animEndEventName );
 			endCurrPage = true;
@@ -417,6 +423,8 @@ var PageTransitions = (function() {
 		if( !support ) {
 			onEndAnimation( $currPage, $nextPage );
 		}
+
+		*/
 
 	}
 
