@@ -222,9 +222,18 @@ checkCanGoNext = () => {
         let answerID = checkedIDValue.split('-').pop();
         let score = 0;
         if (correctAnswerID == answerID) {
+            //Increase the total correct count
             totalCorrectNum ++;
+
+            //Save the correct number for this round
             current_round_correct_num ++;
+
+            //Set the score
             score = 100;
+
+            //Remove the correct answer label
+            $targetCorrectAnswerLabel = $('#round-' + ROUND_CURRENT_INDEX + '-' + index + '-correct-answer');
+            $targetCorrectAnswerLabel.css('display', 'none');
         }
 
         //Set Answer Section in answer result views
@@ -256,7 +265,7 @@ checkCanGoNext = () => {
         $('#pt-btn-check-result-' + ROUND_CURRENT_INDEX).toggleClass('pt-btn-check-result-incorrect');
     }
 
-
+    //Update the score board
     $('.pt-score-label .number-score').text(totalCorrectNum * 100);
 
 
