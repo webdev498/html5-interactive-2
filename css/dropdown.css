@@ -1,15 +1,12 @@
 .dropdown-el {
-  /* min-width: 12em; */
   width: 300px;
   position: absolute;
   display: inline-block;
-  /* margin-right: 1em; */
   min-height: 2em;
   max-height: 2em;
   overflow: hidden;
   cursor: pointer;
   text-align: left;
-  white-space: nowrap;
   color: #444;
   outline: none;
   border: .06em solid transparent;
@@ -23,13 +20,14 @@
 .dropdown-el label {
   border-top: .06em solid #d9d9d9;
   display: block;
-  height: 2em;
-  line-height: 2em;
+  line-height: 1.4em;
   padding-left: 1em;
   padding-right: 3em;
   cursor: pointer;
   position: relative;
   transition: 0.3s color ease-in-out;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .dropdown-el label:nth-child(2) {
   margin-top: 2em;
@@ -40,6 +38,11 @@
   border-top: none;
   position: absolute;
   top: 0;
+
+  white-space: nowrap;
+  width: 320px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .dropdown-el input:checked + label:nth-child(2) {
   margin-top: 0;
