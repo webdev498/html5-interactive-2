@@ -45,7 +45,7 @@ $(document ).ready(function() {
             
         })
             .fail(function() {
-                alert('Something went wrong!');
+                console.log('Something went wrong!');
             });
     }
     else { // ---------------- Offline mode-------------
@@ -240,6 +240,10 @@ checkCanGoNext = () => {
 
     return isAllSelected;
 }
+
+$('.pt-btn-close').click(function() {
+    window.location.href = "../index.html";
+});
 
 $('.pt-btn-continue').click(function() {
     ROUND_CURRENT_INDEX ++;
