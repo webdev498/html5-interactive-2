@@ -220,9 +220,11 @@ checkCanGoNext = () => {
         let checkedIDValue = $('input:radio[name=' + nameValue + ']:checked').val();
         let correctAnswerID = quizInfo['Question' + questionIndex][4][1];
         let answerID = checkedIDValue.split('-').pop();
+        let score = 0;
         if (correctAnswerID == answerID) {
             totalCorrectNum ++;
             current_round_correct_num ++;
+            score = 100;
         }
 
         //Set Answer Section in answer result views
@@ -239,10 +241,10 @@ checkCanGoNext = () => {
         //Send the report to server
         let questionID = quizInfo['Question' + questionIndex][0][1];
         if (isNetworkOnline) {  //Sending to server
-            sendReportToServer(questionID, answerID, 10);
+            sendReportToServer(questionID, answerID, score);
         }
         else { //Store it in local storage
-            storeReportToLocalStorage(questionID, answerID, 10);
+            storeReportToLocalStorage(questionID, answerID, score);
         }
         
     }
