@@ -145,6 +145,17 @@ html, body { height: 100%; }
     height: 768px;
 }
 
+/* Alert Popup */
+
+.popup-alert {
+	background-image: url("../images/backgrounds/popup_screen.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 1024px;
+    height: 748px;
+}
+
+
 /* Triggers (menu and button) */
 
 .pt-triggers {
@@ -373,6 +384,26 @@ html, body { height: 100%; }
 .pt-page .pt-btn-close img:active{
 	content:url("../images/buttons/prev_down.png");
 }
+
+
+.pt-btn-popup-ok {
+	pointer-events: auto;
+	position: absolute;
+	top: 500px;
+    left: 223px;
+	cursor: pointer;
+	z-index: 100;
+}
+
+.pt-btn-popup-ok img{
+	content:url("../images/buttons/ok.png");
+}
+
+.pt-btn-popup-ok img:active{
+	content:url("../images/buttons/ok_down.png");
+}
+
+
 
 
 

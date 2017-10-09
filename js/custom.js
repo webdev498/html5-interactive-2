@@ -66,7 +66,7 @@ $(document ).ready(function() {
 
             }
         } else {
-            alert('Sorry! No Web Storage support..');
+            console.log('Sorry! No Web Storage support..');
         }
         
     }
@@ -200,7 +200,8 @@ checkCanGoNext = () => {
         let checkedIDValue = $('input:radio[name=' + nameValue + ']:checked').val();
 
         if (isAllSelected && checkedIDValue == 'answer-id-default-' + questionIndex){
-            alert('Please select all answers!');
+            //Show the alert view
+            $('#popup-alert-div').css('display', 'block');
             isAllSelected = false;
 
             return;
@@ -241,8 +242,14 @@ checkCanGoNext = () => {
     return isAllSelected;
 }
 
+
+
 $('.pt-btn-close').click(function() {
     window.location.href = "../index.html";
+});
+
+$('.pt-btn-popup-ok').click(function() {
+    $('#popup-alert-div').css('display', 'none');
 });
 
 $('.pt-btn-continue').click(function() {
