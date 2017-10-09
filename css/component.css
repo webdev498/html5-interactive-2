@@ -347,6 +347,7 @@ html, body { height: 100%; }
 	bottom: 65px;
     right: 20px;
 	z-index: 100;
+	cursor: pointer;
 }
 
 #pt-main .pt-page .pt-btn-result img{
@@ -431,15 +432,15 @@ html, body { height: 100%; }
 
 .pt-score-label {
 	position: absolute;
-    top: 50px;
-    right: 15px;
+    top: 53px;
+    right: 10px;
     width: 200px;
     height: 50px;
-	overflow-y: auto;
 }
 
 .pt-score-label > p {
-	font-size: 14pt;
+	font-size: 14pt !important;
+	line-height: 50px;
 	margin: 0px;
 	text-align: right;
 	font-weight: lighter;
@@ -448,7 +449,11 @@ html, body { height: 100%; }
 
 .pt-score-label .number-score {
 	font-weight: bold;
-	font-size: 30pt;
+	font-size: 30pt !important;
+	display: inline-block;
+	vertical-align: middle;
+	padding-bottom: 7px;
+	padding-left: 5px;
 }
 
 /* Question Label */
@@ -552,3 +557,19 @@ html, body { height: 100%; }
 	text-align: left;
 	font-weight: bold;
 }
+
+/* Pulse button */
+@-webkit-keyframes pulse_animation {
+	0% { -webkit-transform: scale(1); }
+	50% { -webkit-transform: scale(1.05); }
+	100% { -webkit-transform: scale(1); }
+}
+ 
+.pulse-button {
+	-webkit-animation-name: 'pulse_animation';
+	-webkit-animation-duration: 900ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+ 

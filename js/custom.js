@@ -256,6 +256,10 @@ checkCanGoNext = () => {
         $('#pt-btn-check-result-' + ROUND_CURRENT_INDEX).toggleClass('pt-btn-check-result-incorrect');
     }
 
+
+    $('.pt-score-label .number-score').text(totalCorrectNum * 100);
+
+
     return isAllSelected;
 }
 
