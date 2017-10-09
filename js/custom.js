@@ -124,14 +124,18 @@ updateQuestionsAndAnswers = (quizInfo) => {
 
             });
 
-            //Set Answer Section in answer result view
-            $targetDropDownAnswer = $('#' + strTargetID + '-answer');
-            nameValue = 'answersGroup-' + questionIndex + '-answer';
-            IDValue = 'answer-id-default-' + questionIndex + '-answer';
-            $newRadio = $( "<input type='radio' name='" + nameValue + "' value='" + IDValue + "' checked='checked' id='" + IDValue + "'>" );
-            $newLabel = $( "<label for='answer-id-0'>" + correctAnswerValue + "</label>" );
-            $targetDropDownAnswer.append($newRadio);
-            $targetDropDownAnswer.append($newLabel);
+            //Set Answer Section in answer result views
+            // $targetDropDownAnswer = $('#' + strTargetID + '-answer');
+            // nameValue = 'answersGroup-' + questionIndex + '-answer';
+            // IDValue = 'answer-id-default-' + questionIndex + '-answer';
+            // $newRadio = $( "<input type='radio' name='" + nameValue + "' value='" + IDValue + "' checked='checked' id='" + IDValue + "'>" );
+            // $newLabel = $( "<label for='answer-id-0'>" + correctAnswerValue + "</label>" );
+            // $targetDropDownAnswer.append($newRadio);
+            // $targetDropDownAnswer.append($newLabel);
+
+            //Set correct answer label in answer result screen
+            $targetCorrectAnswerLabel = $('#round-' + round + '-' + index + '-correct-answer');
+            $targetCorrectAnswerLabel.children().first().text(correctAnswerValue);
         }
     }
 }
@@ -204,7 +208,7 @@ checkCanGoNext = () => {
             $('#popup-alert-div').css('display', 'block');
             isAllSelected = false;
 
-            return;
+            return false;
         }
     }
 
@@ -220,6 +224,17 @@ checkCanGoNext = () => {
             totalCorrectNum ++;
             current_round_correct_num ++;
         }
+
+        //Set Answer Section in answer result views
+        let strTargetID = 'round-' + ROUND_CURRENT_INDEX + '-' + index + '-dropdown';
+        $targetDropDownAnswer = $('#' + strTargetID + '-answer');
+        nameValue = 'answersGroup-' + questionIndex + '-answer';
+        IDValue = 'answer-id-default-' + questionIndex + '-answer';
+        selectedAnswerValue = $('label[for=' + checkedIDValue + ']').text();
+        $newRadio = $( "<input type='radio' name='" + nameValue + "' value='" + IDValue + "' checked='checked' id='" + IDValue + "'>" );
+        $newLabel = $( "<label for='answer-id-0'>" + selectedAnswerValue + "</label>" );
+        $targetDropDownAnswer.append($newRadio);
+        $targetDropDownAnswer.append($newLabel);
 
         //Send the report to server
         let questionID = quizInfo['Question' + questionIndex][0][1];

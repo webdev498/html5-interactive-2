@@ -451,7 +451,7 @@ html, body { height: 100%; }
 	font-size: 30pt;
 }
 
-
+/* Question Label */
 .pt-question-label {
 	position: absolute;
     width: 650px;
@@ -485,6 +485,42 @@ html, body { height: 100%; }
     right: 15px;
 }
 
+/* Correct Answer Label */
+.pt-correct-answer-label {
+	position: absolute;
+    width: 278px;
+    height: 40px;
+	overflow-y: auto;
+}
+.pt-correct-answer-label > p {
+	font-size: 12pt;
+	margin: 0px;
+	text-align: left;
+	font-weight: normal;
+}
+
+.pt-correct-answer-label-1 {
+	top: 355px;
+    left: 30px;
+}
+
+.pt-correct-answer-label-2 {
+	top: 435px;
+    left: 30px;
+}
+
+.pt-correct-answer-label-3 {
+	top: 515px;
+    left: 30px;
+}
+
+.pt-correct-answer-label-4 {
+	top: 595px;
+    left: 30px;
+}
+
+
+/* Final Page Result */
 .pt-final-points {
 	position: absolute;
     bottom: 204px;
