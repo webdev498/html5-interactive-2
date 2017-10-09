@@ -245,10 +245,16 @@ $('.pt-btn-continue').click(function() {
     ROUND_CURRENT_INDEX ++;
 });
 
+//Display final result on congratulations screen
 $('.pt-btn-result').click(function() {
     ROUND_CURRENT_INDEX ++;
 
+    //Display the total earned points
+    $('#final-earned-points').text(totalCorrectNum * 100 + ' POINTS');
+
+    //Display the count of correct answers
     $('#result-text').text(totalCorrectNum + '/12');
+    
 });
 
 
