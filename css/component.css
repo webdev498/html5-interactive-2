@@ -1,11 +1,13 @@
 html, body { height: 100%; }
 
+.container { height: 100%; }
+
 #pt-main {
 	position: absolute;
 	overflow: hidden;
 
     width: 1024px;
-	height: 748px;  
+	height: 748px;
 }
 
 .pt-perspective {
