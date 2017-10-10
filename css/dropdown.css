@@ -63,7 +63,7 @@
   border-radius: .25em;
   padding: 0;
   box-shadow: rgba(0, 0, 0, 0.1) 3px 3px 5px 0px;
-  max-height: 15em;
+  max-height: 20em;
   z-index: 900;
 }
 .dropdown-el.expanded label {
@@ -85,6 +85,53 @@
 }
 
 
+/* Inverse */
+.dropdown-el-inverse.expanded input:checked + label {
+    bottom: 0px;
+    top: initial !important;
+    position: absolute !important;  
+}
+
+ .dropdown-el-inverse.expanded label:nth-child(2) {
+  margin-bottom: 0;
+  margin-top: 0;
+} 
+
+.dropdown-el-inverse label:last-child {
+  margin-bottom: 2em;
+  border-top: .06em solid #d9d9d9;
+}
+
+.dropdown-el-inverse.expanded input:checked + label:last-child {
+  margin-bottom: 0;
+  position: relative !important;
+}
+
+.dropdown-el-inverse {
+  /* bottom: 400px; */
+  top: initial;
+}
+
+.dropdown-el-inverse.expanded label {
+  border-bottom: .06em solid #d9d9d9;
+  border-top: 0;
+}
+
+.dropdown-el-inverse.expanded::after {
+  bottom: .85em;
+  top: initial;
+}
+
+.dropdown-el-inverse::after {
+  bottom: 0.5em;
+  top: initial;
+}
+
+
+
+
+
+/* Round module */
 .round-1-dropdown {
     top: 320px;
     left: 20px;
@@ -98,6 +145,6 @@
     left: 20px;
 }
 .round-4-dropdown {
-    top: 560px;
+    bottom: 173px;
     left: 20px;
 }
