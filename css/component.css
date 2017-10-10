@@ -154,7 +154,18 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 748px;
+	height: 748px;
+	display: none;
+}
+
+/* Alert popup for internet connection */
+.popup-alert-internet {
+	background-image: url("../images/backgrounds/internet_popup.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 1024px;
+	height: 748px;
+	display: none;
 }
 
 

@@ -56,7 +56,8 @@ $(document ).ready(function() {
         if (typeof(Storage) !== "undefined") {
             let activity_json = localStorage.getItem("activity_json");
             if (!activity_json) {
-                alert('Sorry! You must be online at least first time.');    
+                $('#popup-alert-internet-div').css('display', 'block');
+                return;
             }
             else {
                 QuizDetail = $.parseJSON(activity_json);
@@ -300,5 +301,14 @@ $('.pt-btn-result').click(function() {
     $('#result-text').text(totalCorrectNum + '/12');
     
 });
+
+/* State Store */
+/* Save round  */
+/* Save state of the questions and answers  */
+/* Save activity questions  */
+/* Save a score  */
+
+
+
 
 
