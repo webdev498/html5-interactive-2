@@ -45,7 +45,7 @@ html, body { height: 100%; }
 }
 
 .no-js body {
-	overflow: auto;
+	/* overflow: auto; */
 }
 
 .pt-page-ontop {
