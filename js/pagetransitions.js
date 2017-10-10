@@ -94,6 +94,10 @@ var PageTransitions = (function() {
 		} );
 	}
 
+	function gotoPage(pageIndex) {
+		nextPage({showPage : pageIndex});
+	}
+
 	function nextPage(options ) {
 		var animation = (options.animation) ? options.animation : options;
 
@@ -447,6 +451,7 @@ var PageTransitions = (function() {
 	return { 
 		init : init,
 		nextPage : nextPage,
+		gotoPage : gotoPage
 	};
 
 })();

@@ -1,6 +1,7 @@
 let isNetworkOnline = false;
 
 let ROUND_CURRENT_INDEX = 1;
+let Answer_Pass_Index = 0;
 let QuizDetail;
 let canGoNext = false;
 let totalCorrectNum = 0;
@@ -28,57 +29,60 @@ $(document).click(function() {
 $(document ).ready(function() {
     //Disable Start Button
     $('.pt-btn-begin').toggleClass('pt-btn-begin-inactive');
+
+    if (!loadLastState()) { //Tried to load the last state first. If failed~~~~~~~~~~~
     
-    if (navigator.onLine) { // ------------- Online mode -----------
-        isNetworkOnline = true;
-        //Send the responses reporting to server if exists
-        sendStoredReportToServer();
+        if (navigator.onLine) { // ------------- Online mode -----------
+            isNetworkOnline = true;
+            //Send the responses reporting to server if exists
+            sendStoredReportToServer();
 
-        //Get Activity JSON
-        $.post("https://gsk.mc3tt.com/tabletop/activities/getactivity/", { activity_id: 124 }, function(data){
-
-            //Enable Start Button
-            $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
-            $('.pt-btn-begin').toggleClass('pulse-button');
-
-            //Get the quiz info
-            QuizDetail = $.parseJSON(data);
-
-            //Store browser support
-            localStorage.setItem("activity_json", data);
-
-            //Update the screens with queries
-            updateQuestionsAndAnswers(QuizDetail['Activity124']);
-            
-        })
-            .fail(function() {
-                console.log('Something went wrong!');
-            });
-    }
-    else { // ---------------- Offline mode-------------
-        isNetworkOnline = false;
-
-        //Check if browser supports the local storage
-        if (typeof(Storage) !== "undefined") {
-            let activity_json = localStorage.getItem("activity_json");
-            if (!activity_json) {
-                $('#popup-alert-internet-div').css('display', 'block');
-                return;
-            }
-            else {
-                QuizDetail = $.parseJSON(activity_json);
-                //Update the screens with queries
-                updateQuestionsAndAnswers(QuizDetail['Activity124']);
+            //Get Activity JSON
+            $.post("https://gsk.mc3tt.com/tabletop/activities/getactivity/", { activity_id: 124 }, function(data){
 
                 //Enable Start Button
                 $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
                 $('.pt-btn-begin').toggleClass('pulse-button');
 
-            }
-        } else {
-            alert('Sorry! No Web Storage support..');
+                //Get the quiz info
+                QuizDetail = $.parseJSON(data);
+
+                //Store browser support
+                localStorage.setItem("activity_json", data);
+
+                //Update the screens with queries
+                updateQuestionsAndAnswers(QuizDetail['Activity124']);
+                
+            })
+                .fail(function() {
+                    console.log('Something went wrong!');
+                });
         }
-        
+        else { // ---------------- Offline mode-------------
+            isNetworkOnline = false;
+
+            //Check if browser supports the local storage
+            if (typeof(Storage) !== "undefined") {
+                let activity_json = localStorage.getItem("activity_json");
+                if (!activity_json) {
+                    $('#popup-alert-internet-div').css('display', 'block');
+                    return;
+                }
+                else {
+                    QuizDetail = $.parseJSON(activity_json);
+                    //Update the screens with queries
+                    updateQuestionsAndAnswers(QuizDetail['Activity124']);
+
+                    //Enable Start Button
+                    $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+                    $('.pt-btn-begin').toggleClass('pulse-button');
+
+                }
+            } else {
+                alert('Sorry! No Web Storage support..');
+            }
+            
+        }
     }
 
 });
@@ -105,6 +109,9 @@ updateQuestionsAndAnswers = (quizInfo) => {
             let strTargetID = 'round-' + round + '-' + index + '-dropdown';
             var $targetDropDown = $('#' + strTargetID);
             let correctAnswerValue;
+
+            //Clear dropdown
+            $targetDropDown.empty();
             
             //Add the default option
             let nameValue = 'answersGroup-' + questionIndex;
@@ -284,15 +291,79 @@ checkCanGoNext = () => {
     //Update the score board
     $('.pt-score-label .number-score').text(totalCorrectNum * 100);
 
+    //Increase the answer index
+    Answer_Pass_Index ++;
+
+    //Save the state
+    saveCurrentState();
+
     return isAllSelected;
 }
 
-/* State Store */
-/* Save round  */
-/* Save state of the questions and answers  */
-/* Save activity questions  */
-/* Save a score  */
 
+/* Save the current state */
+
+saveCurrentState = () => {
+    currentRound = Answer_Pass_Index;
+    currentCorrentNum = totalCorrectNum;
+
+    if (currentRound >= 3) {
+        localStorage.removeItem("lastState");
+        return;
+    }
+
+    state = {
+        currentRound: currentRound,
+        currentCorrectNum: totalCorrectNum
+    }
+    localStorage.setItem("lastState", JSON.stringify(state));
+}
+
+/* Load the last state */
+
+loadLastState = () => {
+    if (typeof(Storage) !== "undefined") {
+        let activity_json = localStorage.getItem("activity_json");
+        if (!activity_json)
+            return false;
+
+        lastState = JSON.parse(localStorage.getItem("lastState"));
+        if (!lastState)
+            return false;
+
+        QuizDetail = $.parseJSON(activity_json);
+
+        //Enable Start Button
+        $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+        $('.pt-btn-begin').toggleClass('pulse-button');
+
+        //Reset the app 
+        resetWithState(lastState);
+    }
+
+    return false;
+}
+
+/* Reset the app with state */
+resetWithState = (state) => {
+    //Initialize the global variables
+    isNetworkOnline = false;
+    canGoNext = false;
+
+    ROUND_CURRENT_INDEX = lastState.currentRound + 1;
+    Answer_Pass_Index = lastState.currentRound;
+    totalCorrectNum = lastState.currentCorrectNum;
+    current_round_correct_num = 0;
+
+    //Update the screens with queries
+    updateQuestionsAndAnswers(QuizDetail['Activity124']);
+
+    //Go to the corresponding screen
+    PageTransitions.gotoPage(Answer_Pass_Index * 2 + 1);
+
+    //Update the score board
+    $('.pt-score-label .number-score').text(totalCorrectNum * 100);
+}
 
 
 
