@@ -6,6 +6,9 @@ let canGoNext = false;
 let totalCorrectNum = 0;
 let current_round_correct_num = 0;
 
+
+/* Handle the dropdown component */
+
 $('.dropdown-el').click(function(e) {
     // $('.dropdown-el').removeClass('expanded');
     e.preventDefault();
@@ -18,6 +21,9 @@ $('.dropdown-el').click(function(e) {
 $(document).click(function() {
     $('.dropdown-el').removeClass('expanded');
 });
+
+
+/* Document Ready for initial work */
 
 $(document ).ready(function() {
     //Disable Start Button
@@ -77,6 +83,7 @@ $(document ).ready(function() {
 
 });
 
+/* Update the questions and answers with activity json info */
 
 updateQuestionsAndAnswers = (quizInfo) => {
     //Update the questions for 3 rounds (12 questions totally)
@@ -128,21 +135,14 @@ updateQuestionsAndAnswers = (quizInfo) => {
 
             });
 
-            //Set Answer Section in answer result views
-            // $targetDropDownAnswer = $('#' + strTargetID + '-answer');
-            // nameValue = 'answersGroup-' + questionIndex + '-answer';
-            // IDValue = 'answer-id-default-' + questionIndex + '-answer';
-            // $newRadio = $( "<input type='radio' name='" + nameValue + "' value='" + IDValue + "' checked='checked' id='" + IDValue + "'>" );
-            // $newLabel = $( "<label for='answer-id-0'>" + correctAnswerValue + "</label>" );
-            // $targetDropDownAnswer.append($newRadio);
-            // $targetDropDownAnswer.append($newLabel);
-
             //Set correct answer label in answer result screen
             $targetCorrectAnswerLabel = $('#round-' + round + '-' + index + '-correct-answer');
             $targetCorrectAnswerLabel.children().first().text(correctAnswerValue);
         }
     }
 }
+
+/* Store the reports to localStorage */
 
 storeReportToLocalStorage = (question_id, answer_id, score) => {
     var storedReport = JSON.parse(localStorage.getItem("reports"));
@@ -156,6 +156,8 @@ storeReportToLocalStorage = (question_id, answer_id, score) => {
 
     localStorage.setItem("reports", JSON.stringify(storedReport));
 }
+
+/* Send the stored answering report to server */
 
 sendStoredReportToServer = () => {
     var storedReport = JSON.parse(localStorage.getItem("reports"));
@@ -171,6 +173,8 @@ sendStoredReportToServer = () => {
     }
     
 }
+
+/* Send the answering report to server */
 
 sendReportToServer = (question_id, answer_id, score) => {
     let localInfo = $.parseJSON(currentJSONString);
@@ -196,6 +200,13 @@ sendReportToServer = (question_id, answer_id, score) => {
             });
 }
 
+/* 
+- Check if all answers are selected
+- Calculate the score
+- Update the Answer Review screen elements
+- Post or store the answer report
+- Display the final Correct or Incorrect symbol
+*/
 checkCanGoNext = () => {
     let quizInfo = QuizDetail['Activity124'];
     var isAllSelected = true;
@@ -240,12 +251,13 @@ checkCanGoNext = () => {
             $targetCorrectAnswerLabel.css('display', 'none');
         }
 
-        //Set Answer Section in answer result views
+        //Update the contents on Answer Review Screen (Dropdown menu and correct answers underneath the incorrect answer)
         let strTargetID = 'round-' + ROUND_CURRENT_INDEX + '-' + index + '-dropdown';
         $targetDropDownAnswer = $('#' + strTargetID + '-answer');
         nameValue = 'answersGroup-' + questionIndex + '-answer';
         IDValue = 'answer-id-default-' + questionIndex + '-answer';
         selectedAnswerValue = $('label[for=' + checkedIDValue + ']').text();
+
         $newRadio = $( "<input type='radio' name='" + nameValue + "' value='" + IDValue + "' checked='checked' id='" + IDValue + "'>" );
         $newLabel = $( "<label for='answer-id-0'>" + selectedAnswerValue + "</label>" );
         $targetDropDownAnswer.append($newRadio);
@@ -272,25 +284,38 @@ checkCanGoNext = () => {
     //Update the score board
     $('.pt-score-label .number-score').text(totalCorrectNum * 100);
 
-
     return isAllSelected;
 }
 
+/* State Store */
+/* Save round  */
+/* Save state of the questions and answers  */
+/* Save activity questions  */
+/* Save a score  */
 
+
+
+
+
+/* Event Handler : Close button clicked */
 
 $('.pt-btn-close').click(function() {
     window.location.href = "../index.html";
 });
 
+/* Event Handler : OK button clicked in all answer request popup */
+
 $('.pt-btn-popup-ok').click(function() {
     $('#popup-alert-div').css('display', 'none');
 });
+
+/* Event Handler : Continue button clicked on Answer review screen for each round */
 
 $('.pt-btn-continue').click(function() {
     ROUND_CURRENT_INDEX ++;
 });
 
-//Display final result on congratulations screen
+/* Event Handler : Result(Continue) button clicked on final 3th round's Answer Review*/
 $('.pt-btn-result').click(function() {
     ROUND_CURRENT_INDEX ++;
 
@@ -301,12 +326,6 @@ $('.pt-btn-result').click(function() {
     $('#result-text').text(totalCorrectNum + '/12');
     
 });
-
-/* State Store */
-/* Save round  */
-/* Save state of the questions and answers  */
-/* Save activity questions  */
-/* Save a score  */
 
 
 
