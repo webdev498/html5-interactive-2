@@ -33,6 +33,7 @@ $(document ).ready(function() {
 
             //Enable Start Button
             $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+            $('.pt-btn-begin').toggleClass('pulse-button');
 
             //Get the quiz info
             QuizDetail = $.parseJSON(data);
@@ -62,11 +63,13 @@ $(document ).ready(function() {
                 //Update the screens with queries
                 updateQuestionsAndAnswers(QuizDetail['Activity124']);
 
+                //Enable Start Button
                 $('.pt-btn-begin').removeClass('pt-btn-begin-inactive');
+                $('.pt-btn-begin').toggleClass('pulse-button');
 
             }
         } else {
-            console.log('Sorry! No Web Storage support..');
+            alert('Sorry! No Web Storage support..');
         }
         
     }
