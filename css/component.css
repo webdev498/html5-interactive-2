@@ -462,7 +462,7 @@ html, body { height: 100%; }
 
 .pt-score-label .number-score {
 	font-weight: bold;
-	font-size: 30pt !important;
+	font-size: 23pt !important;
 	display: inline-block;
 	vertical-align: middle;
 	padding-bottom: 7px;
