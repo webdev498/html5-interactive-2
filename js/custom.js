@@ -30,12 +30,15 @@ $(document ).ready(function() {
     //Disable Start Button
     $('.pt-btn-begin').toggleClass('pt-btn-begin-inactive');
 
+    if (navigator.onLine) {
+        //Send the responses reporting to server if exists
+        sendStoredReportToServer();
+    }
+
     if (!loadLastState()) { //Tried to load the last state first. If failed~~~~~~~~~~~
     
         if (navigator.onLine) { // ------------- Online mode -----------
             isNetworkOnline = true;
-            //Send the responses reporting to server if exists
-            sendStoredReportToServer();
 
             //Get Activity JSON
             $.post("https://gsk.mc3tt.com/tabletop/activities/getactivity/", { activity_id: 124 }, function(data){
@@ -152,6 +155,7 @@ updateQuestionsAndAnswers = (quizInfo) => {
 /* Store the reports to localStorage */
 
 storeReportToLocalStorage = (question_id, answer_id, score) => {
+    console.log('-----------Locally Stored the report : ', question_id, answer_id, score);
     var storedReport = JSON.parse(localStorage.getItem("reports"));
     if (!storedReport) storedReport = [];
 
@@ -272,7 +276,7 @@ checkCanGoNext = () => {
 
         //Send the report to server
         let questionID = quizInfo['Question' + questionIndex][0][1];
-        if (isNetworkOnline) {  //Sending to server
+        if (navigator.onLine) {  //Sending to server
             sendReportToServer(questionID, answerID, score);
         }
         else { //Store it in local storage
@@ -347,7 +351,8 @@ loadLastState = () => {
 /* Reset the app with state */
 resetWithState = (state) => {
     //Initialize the global variables
-    isNetworkOnline = false;
+    if (navigator.onLine) isNetworkOnline = true;
+    else isNetworkOnline = false;
     canGoNext = false;
 
     ROUND_CURRENT_INDEX = lastState.currentRound + 1;
