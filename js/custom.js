@@ -7,25 +7,34 @@ let canGoNext = false;
 let totalCorrectNum = 0;
 let current_round_correct_num = 0;
 
-
-let $selectedDropDown;
-
+let currentRoundAnswerIDs = [ 0, 0, 0, 0 ];
 
 /* Handle the dropdown component */
 
 $('.dropdown-el').click(function(e) {
     $('.dropdown-el').not(this).removeClass('expanded');
 
-    console.log('dropdown clicked');
     e.preventDefault();
     e.stopPropagation();
     $(this).toggleClass('expanded');
+
+    answerElementIDStr = '#' + $(e.target).attr('for');
+    answerID = $(e.target).attr('for').split('-')[2];
+    if (answerID != '0') { //Valid Answer
+        $dropdown = $('#'+$(e.target).attr('for')).parent();
+        dropdownID = $dropdown.attr('id');
+        
+        roundIndex = dropdownID.split('-')[1];
+        qIndexInRound = dropdownID.split('-')[2];
+
+        currentRoundAnswerIDs[qIndexInRound - 1] = answerElementIDStr;
+        saveCurrentState();
+    }
 
     $('#'+$(e.target).attr('for')).prop('checked',true);
 });
 
 $(document).click(function() {
-    console.log('document clicked');
     $('.dropdown-el').removeClass('expanded');
 });
 
@@ -41,7 +50,7 @@ $(document ).ready(function() {
         sendStoredReportToServer();
     }
 
-    if (!loadLastState()) { //Tried to load the last state first. If failed~~~~~~~~~~~
+    if (loadLastState() == false) { //Tried to load the last state first. If failed~~~~~~~~~~~
     
         if (navigator.onLine) { // ------------- Online mode -----------
             isNetworkOnline = true;
@@ -288,7 +297,6 @@ checkCanGoNext = () => {
         else { //Store it in local storage
             storeReportToLocalStorage(questionID, answerID, score);
         }
-        
     }
 
     if(current_round_correct_num == 4) {  //Display Correct
@@ -307,7 +315,20 @@ checkCanGoNext = () => {
     //Save the state
     saveCurrentState();
 
+    //Refresh the selected answers
+    currentRoundAnswerIDs = [0, 0, 0, 0];
+
     return isAllSelected;
+}
+
+/* Update answer section */
+updateAnswerDropdown = (answerIDs) => {
+    if (answerIDs) {
+        $.each(answerIDs, function( index, idValue ) {
+            if (idValue == 0) return;
+            $('#round-' + ROUND_CURRENT_INDEX + '-' + (index + 1) + '-dropdown ' + idValue).prop("checked", true)
+        });
+    }
 }
 
 
@@ -324,7 +345,8 @@ saveCurrentState = () => {
 
     state = {
         currentRound: currentRound,
-        currentCorrectNum: totalCorrectNum
+        currentCorrectNum: totalCorrectNum,
+        currentAnswerSelection: currentRoundAnswerIDs
     }
     localStorage.setItem("lastState", JSON.stringify(state));
 }
@@ -349,6 +371,8 @@ loadLastState = () => {
 
         //Reset the app 
         resetWithState(lastState);
+
+        return true;
     }
 
     return false;
@@ -360,6 +384,9 @@ resetWithState = (state) => {
     if (navigator.onLine) isNetworkOnline = true;
     else isNetworkOnline = false;
     canGoNext = false;
+
+    currentRoundAnswerIDs = lastState.currentAnswerSelection;
+    if (!currentRoundAnswerIDs) currentRoundAnswerIDs = [0, 0, 0, 0];
 
     ROUND_CURRENT_INDEX = lastState.currentRound + 1;
     Answer_Pass_Index = lastState.currentRound;
@@ -384,6 +411,8 @@ resetWithState = (state) => {
         $('#result-text').text(totalCorrectNum + '/12');
     }
 
+    //Set the current round answer section with saved one
+    updateAnswerDropdown(currentRoundAnswerIDs);
 }
 
 
