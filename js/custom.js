@@ -8,10 +8,15 @@ let totalCorrectNum = 0;
 let current_round_correct_num = 0;
 
 
+let $selectedDropDown;
+
+
 /* Handle the dropdown component */
 
 $('.dropdown-el').click(function(e) {
-    // $('.dropdown-el').removeClass('expanded');
+    $('.dropdown-el').not(this).removeClass('expanded');
+
+    console.log('dropdown clicked');
     e.preventDefault();
     e.stopPropagation();
     $(this).toggleClass('expanded');
@@ -20,6 +25,7 @@ $('.dropdown-el').click(function(e) {
 });
 
 $(document).click(function() {
+    console.log('document clicked');
     $('.dropdown-el').removeClass('expanded');
 });
 
