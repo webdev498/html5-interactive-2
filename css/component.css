@@ -21,7 +21,7 @@ html, body { height: 100%; }
 
 .pt-page {
 	width: 1024px;
-	height: 768px;
+	height: 748px;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -88,7 +88,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round1 {
@@ -96,7 +96,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round1-answer {
@@ -104,7 +104,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round2 {
@@ -112,7 +112,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round2-answer {
@@ -120,7 +120,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round3 {
@@ -128,7 +128,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-round3-answer {
@@ -136,7 +136,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 .pt-page-final {
@@ -144,7 +144,7 @@ html, body { height: 100%; }
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 1024px;
-    height: 768px;
+    height: 748px;
 }
 
 /* Alert Popup */
