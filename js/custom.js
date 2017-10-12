@@ -311,10 +311,10 @@ saveCurrentState = () => {
     currentRound = Answer_Pass_Index;
     currentCorrentNum = totalCorrectNum;
 
-    if (currentRound >= 3) {
-        localStorage.removeItem("lastState");
-        return;
-    }
+    // if (currentRound >= 3) {
+    //     localStorage.removeItem("lastState");
+    //     return;
+    // }
 
     state = {
         currentRound: currentRound,
@@ -368,6 +368,16 @@ resetWithState = (state) => {
 
     //Update the score board
     $('.pt-score-label .number-score').text(totalCorrectNum * 100);
+
+    //Update the result page
+    if(Answer_Pass_Index >= 3) {
+        //Display the total earned points
+        $('#final-earned-points').text(totalCorrectNum * 100 + ' POINTS');
+
+        //Display the count of correct answers
+        $('#result-text').text(totalCorrectNum + '/12');
+    }
+
 }
 
 

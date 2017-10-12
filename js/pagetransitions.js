@@ -110,7 +110,7 @@ var PageTransitions = (function() {
 		var $currPage = $pages.eq( current );
 
 		if(options.showPage){
-			if( options.showPage < pagesCount - 1 ) {
+			if( options.showPage < pagesCount ) {
 				current = options.showPage;
 			}
 			else {
