@@ -542,7 +542,7 @@ html, body { height: 100%; }
 /* Final Page Result */
 .pt-final-points {
 	position: absolute;
-    bottom: 204px;
+    bottom: 184px;
     left: 140px;
     width: 300px;
     height: 69px;
@@ -558,7 +558,7 @@ html, body { height: 100%; }
 
 .pt-final-result {
 	position: absolute;
-    bottom: 90px;
+    bottom: 70px;
     left: 140px;
     width: 300px;
     height: 69px;
